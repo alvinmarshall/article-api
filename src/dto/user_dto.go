@@ -19,9 +19,3 @@ func (input *UserInput) Validate() error {
 	}
 	return nil
 }
-
-type UserOutput struct {
-	Name     string `json:"name"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-}

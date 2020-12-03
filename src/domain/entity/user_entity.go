@@ -1,8 +1,8 @@
 package entity
 
 import (
-	"article_api/src/dto"
 	"article_api/src/utils/encryption"
+	"article_api/src/vo"
 )
 
 type User struct {
@@ -13,8 +13,8 @@ type User struct {
 	Password string
 }
 
-func (user *User) UserOutput() *dto.UserOutput {
-	return &dto.UserOutput{
+func (user *User) UserOutput() *vo.UserResponse {
+	return &vo.UserResponse{
 		Name:     user.Name,
 		Username: user.Username,
 		Email:    user.Email,
