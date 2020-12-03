@@ -1,0 +1,2 @@
+# Router
+Initialize available endpoints

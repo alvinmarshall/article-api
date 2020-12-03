@@ -1,0 +1,2 @@
+# API
+Defines possible endpoints

@@ -1,8 +1,8 @@
 package entity
 
 import (
-	"article_api/model/dto"
-	"article_api/utils/encryption"
+	"article_api/src/dto"
+	"article_api/src/utils/encryption"
 )
 
 type User struct {
