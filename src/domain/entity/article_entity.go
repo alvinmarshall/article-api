@@ -17,39 +17,47 @@ type Article struct {
 	Comments []Comment
 }
 
+type Articles []Article
+
 type Author struct {
 	BaseEntity
 	User User
 	// @one to one belongs to ^
-	UserID   string    `sql:"type:uuid"`
+	UserID   uuid.UUID `sql:"type:uuid"`
 	Articles []Article `gorm:"foreign_key:AuthorID"`
 	//@one to many(Favorite.AuthorID)
 	Favorites []Favorite `gorm:"foreign_key:FavoriteBy"`
 }
+
+type Authors []Author
 
 type Comment struct {
 	BaseEntity
 	Body    string
 	Article Article
 	//@one to one belongs to ^
-	ArticleID string `sql:"type:uuid"`
+	ArticleID uuid.UUID `sql:"type:uuid"`
 	Author    Author
 	//@one to one belong to ^
 	AuthorID uuid.UUID `sql:"type:uuid"`
 }
 
+type Comments []Comment
+
 type Favorite struct {
 	BaseEntity
 	Favorite Article
 	//@one to one belongs to ^
-	FavoriteID string `sql:"type:uuid"`
+	FavoriteID uuid.UUID `sql:"type:uuid"`
 	FavoriteBy Author
 	//@one to one belongs to ^
 	FavoriteByID uuid.UUID `sql:"type:uuid"`
 }
+type Favorites []Favorite
 
 type Tag struct {
 	BaseEntity
 	Tag      string    `gorm:"unique_index"`
 	Articles []Article `gorm:"many2many:article_tags"`
 }
+type Tags []Tag

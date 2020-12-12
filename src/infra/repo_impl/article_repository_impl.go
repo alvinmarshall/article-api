@@ -1,6 +1,7 @@
 package repo_impl
 
 import (
+	"article_api/src/domain/entity"
 	"article_api/src/domain/repository"
 	"github.com/jinzhu/gorm"
 )
@@ -16,21 +17,31 @@ func NewArticleRepositoryImpl(db *gorm.DB) *articleRepositoryImpl {
 }
 
 func (a articleRepositoryImpl) FindOne(filter interface{}) (interface{}, error) {
-	panic("implement me")
+	article := &entity.Article{}
+	err := a.DB.Preload("Author").Where(filter).Find(article).Error
+	if err != nil {
+		return nil, err
+	}
+	return article, nil
 }
 
-func (a articleRepositoryImpl) Find(filter interface{}) (interface{}, error) {
-	panic("implement me")
+func (a articleRepositoryImpl) Find(filter ...interface{}) (interface{}, error) {
+	articles := &entity.Articles{}
+	err := a.DB.Preload("Author").Find(articles, filter).Error
+	if err != nil {
+		return nil, err
+	}
+	return articles, nil
 }
 
 func (a articleRepositoryImpl) Remove(data interface{}) error {
-	panic("implement me")
+	return a.DB.Delete(&entity.Article{}, data).Error
 }
 
 func (a articleRepositoryImpl) Save(data interface{}) error {
-	panic("implement me")
+	return a.DB.Create(data).Error
 }
 
 func (a articleRepositoryImpl) Update(data interface{}) error {
-	panic("implement me")
+	return a.DB.Update(data).Error
 }

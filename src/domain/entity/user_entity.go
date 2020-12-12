@@ -35,6 +35,8 @@ type Follow struct {
 	FollowedByID string `sql:"type:uuid"`
 }
 
+type Follows []Follow
+
 func (user User) UserOutput() *vo.UserResponse {
 	return &vo.UserResponse{
 		Username: user.Username,

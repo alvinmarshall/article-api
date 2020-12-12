@@ -25,7 +25,7 @@ func (u userRepositoryImpl) FindOne(filter interface{}) (interface{}, error) {
 	return user, nil
 }
 
-func (u userRepositoryImpl) Find(filter interface{}) (interface{}, error) {
+func (u userRepositoryImpl) Find(filter ...interface{}) (interface{}, error) {
 	var users entity.Users
 	err := u.DB.Preload("Profile").Find(&users, filter).Error
 	if err != nil {

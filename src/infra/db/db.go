@@ -12,10 +12,15 @@ import (
 
 var conn *gorm.DB
 
-type Repositories struct {
-	User    repository.UserRepository
-	Article repository.ArticleRepository
-	DB      *gorm.DB
+type entityManager struct {
+	DB       *gorm.DB
+	User     repository.UserRepository
+	Article  repository.ArticleRepository
+	Author   repository.AuthorRepository
+	Comment  repository.CommentRepository
+	Favorite repository.FavoriteRepository
+	Tag      repository.TagRepository
+	Follow   repository.FollowRepository
 }
 
 func GetDBsInstance() *gorm.DB {
@@ -34,28 +39,33 @@ func GetDBsInstance() *gorm.DB {
 	return conn
 }
 
-func NewRepositories() *Repositories {
+func NewEntityManager() *entityManager {
 	instance := GetDBsInstance()
-	return &Repositories{
-		User: repo_impl.NewUserRepositoryImpl(instance),
-		DB:   instance,
-		//Article: repo_impl.NewArticleRepositoryImpl(GetDBsInstance()),
+	return &entityManager{
+		DB:       instance,
+		User:     repo_impl.NewUserRepositoryImpl(instance),
+		Article:  repo_impl.NewArticleRepositoryImpl(instance),
+		Author:   repo_impl.NewAuthorRepositoryImpl(instance),
+		Comment:  repo_impl.NewCommentRepositoryImpl(instance),
+		Favorite: repo_impl.NewFavoriteRepositoryImpl(instance),
+		Tag:      repo_impl.NewTagRepositoryImpl(instance),
+		Follow:   repo_impl.NewFollowRepositoryImpl(instance),
 	}
 }
 
-func (repos *Repositories) Close() error {
+func (repos *entityManager) Close() error {
 	return repos.DB.Close()
 }
 
-func (repos *Repositories) AutoMigrate() error {
+func (repos *entityManager) AutoMigrate() error {
 	return repos.DB.AutoMigrate(
 		&entity.User{},
 		&entity.Profile{},
-		//&entity.Article{},
-		//&entity.Author{},
-		//&entity.Comment{},
-		//&entity.Follow{},
-		//&entity.Favorite{},
-		//&entity.Tag{},
+		&entity.Article{},
+		&entity.Author{},
+		&entity.Comment{},
+		&entity.Follow{},
+		&entity.Favorite{},
+		&entity.Tag{},
 	).Error
 }
